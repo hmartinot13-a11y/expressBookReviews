@@ -1,3 +1,4 @@
+const axios = require('axios');
 const express = require('express');
 let books = require("./booksdb.js");
 let isValid = require("./auth_users.js").isValid;
@@ -26,9 +27,9 @@ public_users.post("/register", (req,res) => {
 });
 
 // Get the book list available in the shop
-public_users.get('/',function (req, res) {
-  res.send(JSON.stringify(books,null,4));
-});
+//public_users.get('/',function (req, res) {
+//  res.send(JSON.stringify(books,null,4));
+//});
 
 // Get book details based on ISBN
 public_users.get('/isbn/:isbn',function (req, res) {
@@ -72,10 +73,23 @@ public_users.get('/title/:title',function (req, res) {
 });
 
 //  Get book review
-public_users.get('/review/:param1',function (req, res) {
-    const isbn = req.params.param1;
-    res.send(JSON.stringify(books[isbn].reviews ,null,4));
-});
+//public_users.get('/review/:param1',function (req, res) {
+//const isbnTest = 2;
+//    res.send(JSON.stringify(books[isbn].reviews ,null,4));
+//});
 
-  
+//axios.get(`http://localhost:3000/review/${isbn}`)
+axios.get(`./`)
+  .then(response => {
+    console.log('Book reviews:', response.data);
+    res.send("toto");
+    //res.send(JSON.stringify(response.data,null,4));
+  })
+  .catch(error => {
+    console.error('Error fetching reviews:', error);
+  });
+
+
+
+ 
 module.exports.general = public_users;
