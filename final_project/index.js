@@ -30,9 +30,23 @@ app.use("/customer/auth/*", function auth(req,res,next){
     }
 });
  
-const PORT =5001;
+const PORT =5002;
 
 app.use("/customer", customer_routes);
 app.use("/", genl_routes);
 
-app.listen(PORT,()=>console.log("Server is running"));
+//app.listen(PORT,()=>console.log("Server is running"));
+//const server = app.listen(PORT, () => {
+//    console.log(`Server running on port ${PORT} ${server} `);
+//  });
+  const server = app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+  
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.error(`Port ${PORT} is already in use.`);
+    } else {
+      console.error('Server error:', err);
+    }
+  });

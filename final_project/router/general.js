@@ -79,7 +79,10 @@ public_users.get('/title/:title',function (req, res) {
 //});
 
 //axios.get(`http://localhost:3000/review/${isbn}`)
-axios.get(`./`)
+//const baseURL = 'https://hmartinot13-5002.theianext-0-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai/';
+const baseURL = 'http://localhost:3002';
+
+axios.get(`${baseURL}/`)
   .then(response => {
     console.log('Book reviews:', response.data);
     res.send("toto");
