@@ -48,13 +48,14 @@ regd_users.post("/login", (req,res) => {
         // Generate JWT access token
         let accessToken = jwt.sign({
             data: password
-        }, 'access', { expiresIn: 60 * 60 });
+        }, 'access', { expiresIn: 60 * 600 });
 
         // Store access token and username in session
         req.session.authorization = {
             accessToken, username
         }
-        return res.status(200).send("User successfully logged in");
+        return res.status(200).send("User successfully logged in with access token: " + accessToken);
+        //return res.status(200).send(accessToken);
     } else {
         return res.status(208).json({ message: "Invalid Login. Check username and password" });
     }
@@ -78,12 +79,12 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     books[isbn].reviews[username] = [];
   }
   // Add the review 
-  books[isbn].reviews[username].push("commentaire");
-  return res.status(200).json({message: "Review sucessfully added for:" + username});
+  books[isbn].reviews[username].push("comment review added for:" + isbn + " and " + username );
+  return res.status(200).json({message: "Review sucessfully added for book:" + isbn + " and username:" + username});
 });
 
 // delete a review for a book
-regd_users.delete("/auth/review/:isbn", function (req, res) {
+regd_users.delete("/auth/delete/:isbn", function (req, res) {
    const isbn = req.params.isbn;
    const username = req.body.username;
    // Check if isbn book exist?
@@ -98,7 +99,7 @@ regd_users.delete("/auth/review/:isbn", function (req, res) {
     // Delete the review for this username
     delete books[isbn].reviews[username];
   }
-  return res.status(200).json({message: "review sucessfully deleted"});
+  return res.status(200).json({message: "Review successfully deleted for book:" + isbn + " and username:" + username});
 });
 
 module.exports.authenticated = regd_users;

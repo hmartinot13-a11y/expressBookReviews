@@ -35,7 +35,7 @@ public_users.get('/isbn/:isbn',function (req, res) {
     const isbn = req.params.isbn;
     const book = books[isbn];  // Access book by key
     if (book) {
-      res.send(book);
+      res.send(JSON.stringify(book,null,4));
     } else {
       res.status(404).send({ message: "Book not found" });
     }
@@ -50,7 +50,7 @@ public_users.get('/author/:author',function (req, res) {
     const filteredBooks = booksArray.filter(book => book.author.toLowerCase() === authorName.toLowerCase());
   
     if (filteredBooks.length > 0) {
-      res.send(filteredBooks);
+      res.send(JSON.stringify(filteredBooks,null,4));
     } else {
       res.status(404).send({ message: "No books found by that author" });
     }
@@ -65,7 +65,7 @@ public_users.get('/title/:title',function (req, res) {
     const filteredBooks = booksArray.filter(book => book.title.toLowerCase() === bookTitle.toLowerCase());
   
     if (filteredBooks.length > 0) {
-      res.send(filteredBooks);
+      res.send(JSON.stringify(filteredBooks,null,4));
     } else {
       res.status(404).send({ message: "No books found by that title" });
     }
