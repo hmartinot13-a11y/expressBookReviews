@@ -81,7 +81,11 @@ public_users.get('/test/:mynb',function (req, res) {
     if (req.params.mynb === "4")
     { myUrl = "https://hmartinot13-5000.theianext-0-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai/title/The%20Divine%20Comedy";};
 
-    
+    // POST https://hmartinot13-5000.theianext-0-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai/register
+    //POST https://hmartinot13-5000.theianext-0-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai/customer/login
+    //PUT https://hmartinot13-5000.theianext-0-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai/customer/auth/review/2
+    //DELETE https://hmartinot13-5000.theianext-0-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai/customer/auth/review/2
+
     myAxiosFct(myUrl)
     .then(result => {
         //console.log("res.data:" + JSON.stringify(resp.data,null,4));

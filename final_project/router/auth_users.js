@@ -79,7 +79,7 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     books[isbn].reviews[username] = [];
   }
   // Add the review 
-  books[isbn].reviews[username].push("comment review added for:" + isbn + " and " + username );
+  books[isbn].reviews[username].push("review added for book: " + isbn + " by username: " + username );
   //return res.status(200).json({message: "Review sucessfully added for book:" + isbn + " and username:" + username});
   return res.status(200).json(books[isbn]);
 });
