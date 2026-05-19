@@ -48,7 +48,7 @@ regd_users.post("/login", (req,res) => {
         // Generate JWT access token
         let accessToken = jwt.sign({
             data: password
-        }, 'access', { expiresIn: 60 * 600 });
+        }, 'access', { expiresIn: 60 * 60 });
 
         // Store access token and username in session
         req.session.authorization = {
@@ -81,7 +81,8 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   // Add the review 
   books[isbn].reviews[username].push("review added for book: " + isbn + " by username: " + username );
   //return res.status(200).json({message: "Review sucessfully added for book:" + isbn + " and username:" + username});
-  return res.status(200).json(books[isbn]);
+  //return res.status(200).json(books[isbn]);
+  return res.status(200).json(books);
 });
 
 // delete a review for a book

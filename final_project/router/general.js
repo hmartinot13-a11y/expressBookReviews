@@ -247,10 +247,10 @@ public_users.get('/title/:title', async function (req, res) {
 });
 
 //  Get book review
-//public_users.get('/review/:param1',function (req, res) {
+public_users.get('/review/:param1',function (req, res) {
 //const isbnTest = 2;
-//    res.send(JSON.stringify(books[isbn].reviews ,null,4));
-//});
+    res.send(JSON.stringify(books,null,4));
+});
 
 //axios.get(`http://localhost:3000/review/${isbn}`)
 //const baseURL = 'https://hmartinot13-5002.theianext-0-labs-prod-misc-tools-us-east-0.proxy.cognitiveclass.ai/';
