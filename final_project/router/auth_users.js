@@ -80,11 +80,12 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
   }
   // Add the review 
   books[isbn].reviews[username].push("comment review added for:" + isbn + " and " + username );
-  return res.status(200).json({message: "Review sucessfully added for book:" + isbn + " and username:" + username});
+  //return res.status(200).json({message: "Review sucessfully added for book:" + isbn + " and username:" + username});
+  return res.status(200).json(books[isbn]);
 });
 
 // delete a review for a book
-regd_users.delete("/auth/delete/:isbn", function (req, res) {
+regd_users.delete("/auth/review/:isbn", function (req, res) {
    const isbn = req.params.isbn;
    const username = req.body.username;
    // Check if isbn book exist?
