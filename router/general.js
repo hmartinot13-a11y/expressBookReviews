@@ -235,6 +235,22 @@ Expected output:
   "username2": "Enjoyed reading it."
 }
 */
+public_users.get('/review/:isbn',async function (req, res) {
+    try {    
+      const isbn = req.params.isbn;
+      const book = books[isbn];
+      if (book) {
+          res.status(200).json(book.reviews);            
+      } else {
+        // Simuler une erreur pour le catch
+        throw new Error("No book found fot the isbn: " + isbn);
+      }
+    } catch (err) {
+      res.status(404).json({ message: err.message });
+    }
+  });
+
+/*
 public_users.get('/reviews/:isbn',async function (req, res) {
   try {    
     const isbn = req.params.isbn;
@@ -256,8 +272,22 @@ public_users.get('/reviews/:isbn',async function (req, res) {
     res.status(404).json({ message: err.message });
   }
 });
+*/
 
 // delete a review for a book
+/*
+curl -X DELETE "https://<your-cloud-ide-url>/review/<isbn>" \
+  -H "Content-Type: application/json" \
+  -d '{"username":"herve"}'
+Expected output example:
+{
+  "message": "Review deleted successfully",
+  "reviews": {
+    "username1": "Great book!"
+    // other remaining reviews
+  }
+}
+*/
 public_users.delete("/review/:isbn", function (req, res) {
     const isbn = req.params.isbn;
     const username = req.body.username;
@@ -265,15 +295,15 @@ public_users.delete("/review/:isbn", function (req, res) {
     if (!books[isbn]) {
      return res.status(300).json({message: "book not found"});
     }
-   const reviews = books[isbn].reviews;
-   // check if username has review
-   if (!reviews[username]) {
-     return res.status(300).json({message: " no review found for this username"});
-   } else {
-     // Delete the review for this username
-     delete books[isbn].reviews[username];
-   }
-   return res.status(200).json({message:" review deleted for book: "+ isbn + " for username: " + username});
- });
+    const reviews = books[isbn].reviews;
+    // check if username has review
+    if (!reviews[username]) {
+      return res.status(300).json({message: "No review found for this isbn"});
+    } else {
+      // Delete the review for this username
+      delete books[isbn].reviews[username];
+    }
+    return res.status(200).json({message:"Review deleted successfully", reviews:books[isbn].reviews[username]});
+});
 
 module.exports.general = public_users;

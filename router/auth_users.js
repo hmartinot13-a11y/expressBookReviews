@@ -78,21 +78,25 @@ Expected output example:
 regd_users.put("/auth/review/:isbn", (req, res) => {
   const isbn = req.params.isbn;
   const username = req.body.username;
-  // Check if isbn book exist?
-  if (!books[isbn]) {
-    return res.status(300).json({message: "book not found"});
-   }
+  const comment = req.body.comment;
+  const book = books[isbn];
+  if (book) {
+                 
+  } else {
+    // Simuler une erreur pour le catch
+    throw new Error("No book found for the isbn: " + isbn);
+  }
   // Initialize object if not the case
-  if (!books[isbn].reviews) {
-    books[isbn].reviews = {};
+  if (!book.reviews) {
+    book.reviews = {};
   }
   // Create a tab for review if it does not exist
-  if (!books[isbn].reviews[username]) {
-    books[isbn].reviews[username] = [];
+  if (!book.reviews[username]) {
+    book.reviews[username] = [];
   }
   // Add the review 
-  books[isbn].reviews[username].push(); //"review added for book: " + isbn + " for username: " + username);
-  return res.status(200).json({messsage: "review added for book: " + isbn + " for username: " + username});
+  book.reviews[username].push(comment); //"review added for book: " + isbn + " for username: " + username);
+  return res.status(200).json({messsage: "Review added/updated successfully", reviews:book.reviews});
 });
 
 
@@ -111,22 +115,22 @@ Expected output example:
 }
 */
 regd_users.delete("/auth/review/:isbn", function (req, res) {
-   const isbn = req.params.isbn;
-   const username = req.body.username;
-   // Check if isbn book exist?
-   if (!books[isbn]) {
-    return res.status(300).json({message: "book not found"});
+    const isbn = req.params.isbn;
+    const username = req.body.username;
+    // Check if isbn book exist?
+    if (!books[isbn]) {
+     return res.status(300).json({message: "book not found"});
+    }
+   const reviews = books[isbn].reviews;
+   // check if username has review
+   if (!reviews[username]) {
+     return res.status(300).json({message: "No review found for this isbn"});
+   } else {
+     // Delete the review for this username
+     delete books[isbn].reviews[username];
    }
-  const reviews = books[isbn].reviews;
-  // check if username has review
-  if (!reviews[username]) {
-    return res.status(300).json({message: " no review found for this username"});
-  } else {
-    // Delete the review for this username
-    delete books[isbn].reviews[username];
-  }
-  return res.status(200).json({message:" review deleted for book: "+ isbn + " for username: " + username});
-});
+   return res.status(200).json({message:"Review deleted successfully", reviews:books[isbn].reviews[username]});
+ });
 
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
