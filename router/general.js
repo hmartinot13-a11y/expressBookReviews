@@ -290,20 +290,21 @@ Expected output example:
 */
 public_users.delete("/review/:isbn", function (req, res) {
     const isbn = req.params.isbn;
-    const username = req.body.username;
+    const book = books[isbn];
+    const reviewer = req.body.reviewer;
+    const reviews = book.reviews;
     // Check if isbn book exist?
-    if (!books[isbn]) {
+    if (!book) {
      return res.status(300).json({message: "book not found"});
     }
-    const reviews = books[isbn].reviews;
-    // check if username has review
-    if (!reviews[username]) {
-      return res.status(300).json({message: "No review found for this isbn"});
-    } else {
-      // Delete the review for this username
-      delete books[isbn].reviews[username];
-    }
-    return res.status(200).json({message:"Review deleted successfully", reviews:books[isbn].reviews[username]});
-});
+   // check if username has review
+   if (!reviews[reviewer]) {
+     return res.status(300).json({message: "No review found for this isbn"});
+   } else {
+     // Delete the review for this username
+     delete reviews[reviewer];
+   }
+   return res.status(200).json({message:"Review deleted successfully", reviews:reviews[reviewer]});
+ });
 
 module.exports.general = public_users;

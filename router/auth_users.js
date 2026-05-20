@@ -77,9 +77,9 @@ Expected output example:
 */
 regd_users.put("/auth/review/:isbn", (req, res) => {
   const isbn = req.params.isbn;
-  const username = req.body.username;
-  const comment = req.body.comment;
   const book = books[isbn];
+  const reviewer = req.body.reviewer;
+  const comment = req.body.comment;
   if (book) {
                  
   } else {
@@ -91,11 +91,11 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     book.reviews = {};
   }
   // Create a tab for review if it does not exist
-  if (!book.reviews[username]) {
-    book.reviews[username] = [];
+  if (!book.reviews[reviewer]) {
+    book.reviews[reviewer] = [];
   }
   // Add the review 
-  book.reviews[username].push(comment); //"review added for book: " + isbn + " for username: " + username);
+  book.reviews[reviewer].push(comment); 
   return res.status(200).json({messsage: "Review added/updated successfully", reviews:book.reviews});
 });
 
@@ -116,20 +116,21 @@ Expected output example:
 */
 regd_users.delete("/auth/review/:isbn", function (req, res) {
     const isbn = req.params.isbn;
-    const username = req.body.username;
+    const book = books[isbn];
+    const reviewer = req.body.reviewer;
+    const reviews = book.reviews;
     // Check if isbn book exist?
-    if (!books[isbn]) {
+    if (!book) {
      return res.status(300).json({message: "book not found"});
     }
-   const reviews = books[isbn].reviews;
    // check if username has review
-   if (!reviews[username]) {
+   if (!reviews[reviewer]) {
      return res.status(300).json({message: "No review found for this isbn"});
    } else {
      // Delete the review for this username
-     delete books[isbn].reviews[username];
+     delete reviews[reviewer];
    }
-   return res.status(200).json({message:"Review deleted successfully", reviews:books[isbn].reviews[username]});
+   return res.status(200).json({message:"Review deleted successfully", reviews:reviews[reviewer]});
  });
 
 module.exports.authenticated = regd_users;
