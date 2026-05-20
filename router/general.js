@@ -203,10 +203,22 @@ public_users.get('/title/:title', async function (req, res) {
 });
 
 // Afficher la liste des reviews en cours. function asynchrone
-public_users.get('/review/:param1',async function (req, res) {
-  //const isbnTest = 2;
+public_users.get('/review/:username',async function (req, res) {
+  let booksArray = Object.values(books);
+  let theReviewByBook = "";
   try {    
-    res.status(200).json(books);
+      booksArray.forEach((book,item) => {
+      if ((book.reviews[req.params.username])) {
+        theReviewByBook = theReviewByBook + "Book: "+ (parseInt(item)+1) + " ";
+      }
+    });
+    if (theReviewByBook==="") 
+    {
+      res.status(200).json({message:"No review for this username"});
+    } else
+    {
+      res.status(200).json({message:theReviewByBook});
+    }  
   } catch (err) {
     res.status(404).json({ message: err.message });
   }

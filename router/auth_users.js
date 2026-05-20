@@ -79,11 +79,10 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
     books[isbn].reviews[username] = [];
   }
   // Add the review 
-  books[isbn].reviews[username].push("review added for book: " + isbn + " by username: " + username );
-  //return res.status(200).json({message: "Review sucessfully added for book:" + isbn + " and username:" + username});
-  //return res.status(200).json(books[isbn]);
-  return res.status(200).json(books);
+  books[isbn].reviews[username].push(); //"review added for book: " + isbn + " for username: " + username);
+  return res.status(200).json({messsage: "review added for book: " + isbn + " for username: " + username});
 });
+
 
 // delete a review for a book
 regd_users.delete("/auth/review/:isbn", function (req, res) {
@@ -96,12 +95,12 @@ regd_users.delete("/auth/review/:isbn", function (req, res) {
   const reviews = books[isbn].reviews;
   // check if username has review
   if (!reviews[username]) {
-    return res.status(300).json({message: "no review found for this username"});
+    return res.status(300).json({message: " no review found for this username"});
   } else {
     // Delete the review for this username
     delete books[isbn].reviews[username];
   }
-  return res.status(200).json({message: "Review successfully deleted for book:" + isbn + " and username:" + username});
+  return res.status(200).json({message:" review deleted for book: "+ isbn + " for username: " + username});
 });
 
 module.exports.authenticated = regd_users;
