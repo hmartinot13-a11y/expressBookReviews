@@ -67,6 +67,29 @@ public_users.get('/author/:author', async (req, res) => {
 });
 */
 
+/*
+public_users.get('/review/:username',async function (req, res) {
+  let booksArray = Object.values(books);
+  let theReviewByBook = "";
+  try {    
+      booksArray.forEach((book,item) => {
+      if ((book.reviews[req.params.username])) {
+        theReviewByBook = theReviewByBook + "Book: "+ (parseInt(item)+1) + " ";
+      }
+    });
+    if (theReviewByBook==="") 
+    {
+      res.status(200).json({message:"No review for this username"});
+    } else
+    {
+      res.status(200).json({message:theReviewByBook});
+    }  
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+});
+*/
+
 public_users.post("/register", (req,res) => {
   const username = req.body.username;
   const password = req.body.password;
@@ -202,26 +225,27 @@ public_users.get('/title/:title', async function (req, res) {
   }
 });
 
-// Afficher la liste des reviews en cours. function asynchrone
-public_users.get('/review/:username',async function (req, res) {
-  let booksArray = Object.values(books);
-  let theReviewByBook = "";
+// Afficher la liste des reviews pour un isbn. function asynchrone
+public_users.get('/reviews/:isbn',async function (req, res) {
   try {    
-      booksArray.forEach((book,item) => {
-      if ((book.reviews[req.params.username])) {
-        theReviewByBook = theReviewByBook + "Book: "+ (parseInt(item)+1) + " ";
+    const isbn = req.params.isbn;
+    const book = books[isbn];
+    const isEmpty = Object.keys(book.reviews).length === 0;
+    if (book) {
+      if (isEmpty)
+      {
+        // Simuler une erreur pour le catch
+        throw new Error("No review found with isbn: " + isbn);
+      } else {
+        res.status(200).json(book.reviews);            
       }
-    });
-    if (theReviewByBook==="") 
-    {
-      res.status(200).json({message:"No review for this username"});
-    } else
-    {
-      res.status(200).json({message:theReviewByBook});
-    }  
+    } else {
+      // Simuler une erreur pour le catch
+      throw new Error("No book found fot the isbn: " + isbn);
+    }
   } catch (err) {
     res.status(404).json({ message: err.message });
   }
 });
-
+  
 module.exports.general = public_users;
