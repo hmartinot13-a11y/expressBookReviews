@@ -226,6 +226,15 @@ public_users.get('/title/:title', async function (req, res) {
 });
 
 // Afficher la liste des reviews pour un isbn. function asynchrone
+/*
+curl -X GET "https://<your-cloud-ide-url>/review/<isbn>"
+Replace <your-cloud-ide-url> with your actual Cloud IDE URL and <isbn> with the book’s ISBN number.
+Expected output:
+{
+  "username1": "Great book!",
+  "username2": "Enjoyed reading it."
+}
+*/
 public_users.get('/reviews/:isbn',async function (req, res) {
   try {    
     const isbn = req.params.isbn;

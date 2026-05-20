@@ -63,6 +63,18 @@ regd_users.post("/login", (req,res) => {
 });
 
 // Add a review for a book
+/*curl -X POST "https://<your-cloud-ide-url>/review/<isbn>" \
+  -H "Content-Type: application/json" \
+  -d '{"username":"herve","review":"This is an updated review."}'
+Expected output example:
+{
+  "message": "Review added/updated successfully",
+  "reviews": {
+    "username1": "Great book!",
+    "herve": "This is an updated review."
+  }
+}
+*/
 regd_users.put("/auth/review/:isbn", (req, res) => {
   const isbn = req.params.isbn;
   const username = req.body.username;
@@ -85,6 +97,19 @@ regd_users.put("/auth/review/:isbn", (req, res) => {
 
 
 // delete a review for a book
+/*
+curl -X DELETE "https://<your-cloud-ide-url>/review/<isbn>" \
+  -H "Content-Type: application/json" \
+  -d '{"username":"herve"}'
+Expected output example:
+{
+  "message": "Review deleted successfully",
+  "reviews": {
+    "username1": "Great book!"
+    // other remaining reviews
+  }
+}
+*/
 regd_users.delete("/auth/review/:isbn", function (req, res) {
    const isbn = req.params.isbn;
    const username = req.body.username;
