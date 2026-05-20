@@ -247,5 +247,24 @@ public_users.get('/reviews/:isbn',async function (req, res) {
     res.status(404).json({ message: err.message });
   }
 });
-  
+
+// delete a review for a book
+public_users.delete("/review/:isbn", function (req, res) {
+    const isbn = req.params.isbn;
+    const username = req.body.username;
+    // Check if isbn book exist?
+    if (!books[isbn]) {
+     return res.status(300).json({message: "book not found"});
+    }
+   const reviews = books[isbn].reviews;
+   // check if username has review
+   if (!reviews[username]) {
+     return res.status(300).json({message: " no review found for this username"});
+   } else {
+     // Delete the review for this username
+     delete books[isbn].reviews[username];
+   }
+   return res.status(200).json({message:" review deleted for book: "+ isbn + " for username: " + username});
+ });
+
 module.exports.general = public_users;
